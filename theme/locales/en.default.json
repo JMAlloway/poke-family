@@ -1,0 +1,13 @@
+{
+  "general": {
+    "shop_name": "PokeBundles"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "checkout": "Checkout"
+  },
+  "products": {
+    "add_to_cart": "Add to Cart"
+  }
+}

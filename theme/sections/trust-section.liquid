@@ -1,0 +1,72 @@
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for block in section.blocks %}
+        <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-secondary/20 hover:bg-secondary/40 transition-colors duration-300">
+          <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-primary shadow-sm mb-4">
+            {% if block.settings.icon == 'shield' %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            {% elsif block.settings.icon == 'heart' %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            {% elsif block.settings.icon == 'zap' %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+            {% elsif block.settings.icon == 'truck' %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+            {% endif %}
+          </div>
+          <h3 class="font-bold font-heading text-lg mb-2">{{ block.settings.title }}</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">{{ block.settings.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust Features",
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield Check" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "zap", "label": "Lightning" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "100% Authentic"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Every card is verified real. No fakes, ever."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Features",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "shield", "title": "100% Authentic", "description": "Every card is verified real. No fakes, ever." } },
+        { "type": "feature", "settings": { "icon": "heart", "title": "Family Friendly", "description": "Curated content safe for kids of all ages." } },
+        { "type": "feature", "settings": { "icon": "zap", "title": "Perfect Condition", "description": "Cards are mint or near-mint quality." } },
+        { "type": "feature", "settings": { "icon": "truck", "title": "Fast Shipping", "description": "Orders ship within 24 hours from USA." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

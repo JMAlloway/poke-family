@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page_title }} | {{ shop.name }}</title>
+  <meta name="description" content="{{ page_description | escape }}">
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <!-- Google Fonts: DM Sans + Fredoka -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN for utility classes -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+            heading: ['Fredoka', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              DEFAULT: 'hsl(45, 95%, 55%)',
+              foreground: 'hsl(220, 20%, 15%)',
+            },
+            secondary: {
+              DEFAULT: 'hsl(200, 85%, 96%)',
+              foreground: 'hsl(200, 60%, 40%)',
+            },
+            accent: {
+              DEFAULT: 'hsl(350, 85%, 60%)',
+              foreground: 'hsl(0, 0%, 100%)',
+            },
+            muted: {
+              DEFAULT: 'hsl(220, 15%, 96%)',
+              foreground: 'hsl(220, 10%, 50%)',
+            },
+            card: {
+              DEFAULT: 'hsl(0, 0%, 100%)',
+              foreground: 'hsl(220, 15%, 20%)',
+            },
+            border: 'hsl(220, 15%, 90%)',
+            background: 'hsl(0, 0%, 100%)',
+            foreground: 'hsl(220, 15%, 20%)',
+            destructive: {
+              DEFAULT: 'hsl(0, 84%, 60%)',
+              foreground: 'hsl(0, 0%, 98%)',
+            },
+          },
+          borderRadius: {
+            '2xl': '1rem',
+            '3xl': '1.5rem',
+          },
+        },
+      },
+    }
+  </script>
+
+  {{ content_for_header }}
+</head>
+<body class="font-sans antialiased bg-background text-foreground">
+  <div class="flex flex-col min-h-screen">
+
+    {%- section 'announcement-bar' -%}
+    {%- section 'header' -%}
+
+    <main class="flex-1">
+      {{ content_for_layout }}
+    </main>
+
+    {%- section 'footer' -%}
+
+  </div>
+
+  {{ 'theme.js' | asset_url | script_tag }}
+</body>
+</html>

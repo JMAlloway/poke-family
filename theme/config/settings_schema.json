@@ -1,0 +1,43 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "PokeBundles",
+    "theme_version": "1.0.0",
+    "theme_author": "PokeBundles Team",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand colors are built into the theme"
+      },
+      {
+        "type": "paragraph",
+        "content": "Primary: Pikachu Yellow, Accent: Pokeball Red. These are configured in the theme CSS."
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter / X"
+      }
+    ]
+  }
+]

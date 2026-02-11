@@ -1,0 +1,120 @@
+<div class="container mx-auto px-4 py-12">
+  <div class="grid md:grid-cols-2 gap-12 items-start">
+    <!-- Product Images -->
+    <div class="space-y-4">
+      <div class="aspect-square bg-secondary/30 rounded-3xl p-8 flex items-center justify-center overflow-hidden">
+        {% if product.featured_image %}
+          <img
+            src="{{ product.featured_image | image_url: width: 800 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            class="w-full h-full object-contain drop-shadow-lg"
+            id="main-product-image"
+          >
+        {% endif %}
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="flex gap-3 overflow-x-auto pb-2">
+          {% for image in product.images %}
+            <button
+              class="w-20 h-20 bg-secondary/30 rounded-xl p-2 flex-shrink-0 border-2 hover:border-primary transition-colors {{ forloop.first | if: 'border-primary', 'border-transparent' }}"
+              onclick="document.getElementById('main-product-image').src='{{ image | image_url: width: 800 }}'"
+            >
+              <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" class="w-full h-full object-contain">
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Info -->
+    <div class="space-y-6">
+      {% if product.tags contains 'new' %}
+        <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold text-white" style="background: hsl(350, 85%, 60%);">
+          New Arrival
+        </span>
+      {% endif %}
+
+      <div>
+        <h1 class="text-3xl md:text-4xl font-heading font-bold mb-2">{{ product.title }}</h1>
+        <div class="flex items-center gap-2 text-primary">
+          {% for i in (1..5) %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          {% endfor %}
+          <span class="text-sm text-muted-foreground ml-1">(42 reviews)</span>
+        </div>
+      </div>
+
+      <div class="text-3xl font-bold font-heading">
+        {{ product.price | money }}
+        {% if product.compare_at_price > product.price %}
+          <span class="text-lg text-muted-foreground line-through ml-2">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+      </div>
+
+      {% if product.description != blank %}
+        <div class="text-muted-foreground leading-relaxed prose">
+          {{ product.description }}
+        </div>
+      {% endif %}
+
+      <form action="/cart/add" method="post" class="space-y-4">
+        {% if product.variants.size > 1 %}
+          <div>
+            <label class="block text-sm font-bold mb-2">{{ product.variants.first.option1 ? 'Option' : 'Variant' }}</label>
+            <select name="id" class="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary focus:outline-none">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
+                  {{ variant.title }} - {{ variant.price | money }}
+                  {% unless variant.available %} (Sold out){% endunless %}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {% else %}
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        {% endif %}
+
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+            <button type="button" onclick="updateQty(-1)" class="p-2 hover:bg-white rounded-md transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </button>
+            <input type="number" name="quantity" id="product-qty" value="1" min="1" class="w-12 text-center font-bold bg-transparent border-0 focus:outline-none">
+            <button type="button" onclick="updateQty(1)" class="p-2 hover:bg-white rounded-md transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            </button>
+          </div>
+          <button type="submit" class="flex-1 rounded-full h-14 text-lg font-bold shadow-lg hover:scale-[1.02] transition-transform flex items-center justify-center gap-2" style="background: hsl(45, 95%, 55%); color: hsl(220, 20%, 15%); box-shadow: 0 10px 25px -5px hsla(45, 95%, 55%, 0.2);">
+            Add to Cart
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </button>
+        </div>
+      </form>
+
+      <!-- Trust badges -->
+      <div class="flex flex-wrap gap-4 pt-4">
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-600"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          100% Authentic
+        </div>
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-600"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+          Fast Shipping
+        </div>
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-600"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Family Safe
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateQty(delta) {
+    var input = document.getElementById('product-qty');
+    var val = parseInt(input.value) + delta;
+    if (val < 1) val = 1;
+    input.value = val;
+  }
+</script>

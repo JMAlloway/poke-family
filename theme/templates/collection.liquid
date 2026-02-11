@@ -1,0 +1,39 @@
+<div class="container mx-auto px-4 py-12">
+  <div class="text-center mb-12 space-y-4">
+    <h1 class="text-3xl md:text-5xl font-heading font-bold">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <p class="text-muted-foreground max-w-2xl mx-auto">{{ collection.description }}</p>
+    {% endif %}
+  </div>
+
+  {% if collection.products.size > 0 %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for product in collection.products %}
+        {% render 'product-card', product: product %}
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <div class="mt-12 flex justify-center gap-2">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="px-4 py-2 rounded-lg border border-border hover:bg-secondary/20 transition-colors">&laquo; Prev</a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="px-4 py-2 rounded-lg border border-border hover:bg-secondary/20 transition-colors">{{ part.title }}</a>
+          {% else %}
+            <span class="px-4 py-2 rounded-lg bg-primary font-bold" style="color: hsl(220, 20%, 15%);">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="px-4 py-2 rounded-lg border border-border hover:bg-secondary/20 transition-colors">Next &raquo;</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="text-center py-20 bg-secondary/20 rounded-3xl">
+      <h2 class="text-2xl font-bold mb-4">No products yet</h2>
+      <p class="text-muted-foreground">Check back soon for new bundles!</p>
+    </div>
+  {% endif %}
+</div>

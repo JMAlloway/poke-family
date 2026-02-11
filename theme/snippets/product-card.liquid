@@ -1,0 +1,58 @@
+{% comment %}
+  Renders a product card.
+  Accepts:
+  - product: {Object} Product Liquid object
+{% endcomment %}
+
+<div class="group relative bg-card rounded-2xl border border-border shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-2">
+  {% if product.tags contains 'new' %}
+    <span class="absolute top-4 left-4 z-10 inline-flex items-center rounded-full px-3 py-1 text-xs font-bold text-white shadow-sm" style="background: hsl(350, 85%, 60%);">
+      New Arrival
+    </span>
+  {% endif %}
+
+  <a href="{{ product.url }}" class="block">
+    <div class="aspect-square overflow-hidden bg-secondary/30 p-8 flex items-center justify-center">
+      {% if product.featured_image != blank %}
+        <img
+          src="{{ product.featured_image | image_url: width: 600 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          class="w-full h-full object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-500"
+          loading="lazy"
+        >
+      {% else %}
+        <div class="w-full h-full flex items-center justify-center text-muted-foreground">No image</div>
+      {% endif %}
+    </div>
+  </a>
+
+  <div class="p-6 space-y-4">
+    <div class="space-y-2">
+      <div class="flex items-center gap-1 text-primary">
+        {% for i in (1..5) %}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        {% endfor %}
+        <span class="text-xs text-muted-foreground ml-1">(42)</span>
+      </div>
+      <a href="{{ product.url }}">
+        <h3 class="font-heading font-bold text-lg leading-tight group-hover:text-primary transition-colors">
+          {{ product.title }}
+        </h3>
+      </a>
+    </div>
+
+    <div class="flex items-center justify-between pt-2">
+      <span class="text-xl font-bold font-heading text-foreground">
+        {{ product.price | money }}
+      </span>
+      <form action="/cart/add" method="post">
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium border border-border bg-background hover:bg-primary hover:text-primary-foreground transition-colors">
+          Add
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<footer class="bg-secondary/30 pt-16 pb-8 border-t border-border">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <!-- Brand -->
+      <div class="space-y-4">
+        <h3 class="font-heading text-xl font-bold">Poke<span style="color: hsl(350, 85%, 60%);">Bundles</span></h3>
+        <p class="text-muted-foreground text-sm leading-relaxed">
+          {{ section.settings.description | default: "Bringing the joy of Pokemon to families everywhere with safe, authentic, and fun curated bundles." }}
+        </p>
+      </div>
+
+      <!-- Shop Links -->
+      <div>
+        <h4 class="font-bold mb-4">Shop</h4>
+        <ul class="space-y-2 text-sm text-muted-foreground">
+          <li><a href="/collections/all" class="hover:text-primary transition-colors">All Bundles</a></li>
+          {% for collection in collections %}
+            {% if forloop.index <= 3 %}
+              <li><a href="{{ collection.url }}" class="hover:text-primary transition-colors">{{ collection.title }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h4 class="font-bold mb-4">Support</h4>
+        <ul class="space-y-2 text-sm text-muted-foreground">
+          <li><a href="/pages/faq" class="hover:text-primary transition-colors">FAQ</a></li>
+          <li><a href="/policies/shipping-policy" class="hover:text-primary transition-colors">Shipping & Returns</a></li>
+          <li><a href="/pages/contact" class="hover:text-primary transition-colors">Contact Us</a></li>
+          <li><a href="/policies/privacy-policy" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h4 class="font-bold mb-4">Stay in the loop!</h4>
+        <p class="text-sm text-muted-foreground mb-4">Get special offers and new bundle alerts.</p>
+        {% form 'customer', id: 'footer-newsletter' %}
+          <div class="flex gap-2">
+            <input
+              type="email"
+              name="contact[email]"
+              placeholder="Enter your email"
+              required
+              class="flex-1 px-4 py-2 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:outline-none"
+            >
+            <button type="submit" class="text-white px-4 py-2 rounded-lg font-bold hover:brightness-110 transition-all" style="background: hsl(45, 95%, 55%); color: hsl(220, 20%, 15%);">
+              Join
+            </button>
+          </div>
+          <input type="hidden" name="contact[tags]" value="newsletter">
+        {% endform %}
+      </div>
+    </div>
+
+    <div class="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-sm text-muted-foreground">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+      <div class="flex gap-4 text-muted-foreground">
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}" class="hover:text-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+        {% endif %}
+        {% if section.settings.facebook_url != blank %}
+          <a href="{{ section.settings.facebook_url }}" class="hover:text-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        {% endif %}
+        {% if section.settings.twitter_url != blank %}
+          <a href="{{ section.settings.twitter_url }}" class="hover:text-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Brand description",
+      "default": "Bringing the joy of Pokemon to families everywhere with safe, authentic, and fun curated bundles."
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter URL"
+    }
+  ]
+}
+{% endschema %}

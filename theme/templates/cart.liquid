@@ -1,0 +1,87 @@
+<div class="container mx-auto px-4 py-12">
+  <h1 class="text-4xl font-heading font-bold mb-8">Your Cart</h1>
+
+  {% if cart.item_count == 0 %}
+    <div class="text-center py-20 bg-secondary/20 rounded-3xl">
+      <h2 class="text-2xl font-bold mb-4">Your cart is empty</h2>
+      <p class="text-muted-foreground mb-8">Looks like you haven't added any bundles yet!</p>
+      <a href="/collections/all" class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-bold text-primary-foreground" style="background: hsl(45, 95%, 55%); color: hsl(220, 20%, 15%);">
+        Start Shopping
+      </a>
+    </div>
+  {% else %}
+    <form action="/cart" method="post">
+      <div class="grid lg:grid-cols-3 gap-12">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2 space-y-6">
+          {% for item in cart.items %}
+            <div class="flex gap-6 p-6 bg-card border border-border rounded-2xl shadow-sm items-center">
+              <div class="w-24 h-24 bg-secondary/30 rounded-xl p-2 flex-shrink-0">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" class="w-full h-full object-contain">
+                {% endif %}
+              </div>
+
+              <div class="flex-1">
+                <a href="{{ item.url }}">
+                  <h3 class="font-heading font-bold text-lg mb-1 hover:text-primary transition-colors">{{ item.product.title }}</h3>
+                </a>
+                {% unless item.variant.title == 'Default Title' %}
+                  <p class="text-sm text-muted-foreground mb-1">{{ item.variant.title }}</p>
+                {% endunless %}
+                <p class="text-primary font-bold text-lg">{{ item.price | money }}</p>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+                  <a href="/cart/change?id={{ item.key }}&quantity={{ item.quantity | minus: 1 }}" class="p-1 hover:bg-white rounded-md transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+                  </a>
+                  <span class="w-8 text-center font-bold text-sm">{{ item.quantity }}</span>
+                  <a href="/cart/change?id={{ item.key }}&quantity={{ item.quantity | plus: 1 }}" class="p-1 hover:bg-white rounded-md transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                  </a>
+                </div>
+                <a href="/cart/change?id={{ item.key }}&quantity=0" class="p-2 text-muted-foreground hover:text-destructive transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+          <div class="bg-card border border-border rounded-2xl p-6 shadow-sm sticky top-24">
+            <h3 class="font-heading font-bold text-xl mb-6">Order Summary</h3>
+
+            <div class="space-y-4 mb-6">
+              <div class="flex justify-between text-muted-foreground">
+                <span>Subtotal</span>
+                <span>{{ cart.total_price | money }}</span>
+              </div>
+              <div class="flex justify-between text-muted-foreground">
+                <span>Shipping</span>
+                <span class="text-green-600 font-bold">FREE</span>
+              </div>
+              <div class="border-t border-border pt-4 flex justify-between font-bold text-xl">
+                <span>Total</span>
+                <span>{{ cart.total_price | money }}</span>
+              </div>
+            </div>
+
+            <button type="submit" name="checkout" class="w-full rounded-full h-12 text-lg shadow-lg font-bold hover:scale-[1.02] transition-transform mb-4 flex items-center justify-center gap-2 text-primary-foreground" style="background: hsl(45, 95%, 55%); color: hsl(220, 20%, 15%); box-shadow: 0 10px 25px -5px hsla(45, 95%, 55%, 0.2);">
+              Checkout
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+
+            <div class="flex items-center gap-2 text-xs text-muted-foreground justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+              Secure Checkout &bull; 100% Satisfaction Guarantee
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+</div>

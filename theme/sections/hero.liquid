@@ -1,0 +1,129 @@
+<section class="relative overflow-hidden bg-gradient-to-b from-secondary/50 to-background py-16 md:py-24">
+  <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+
+    <div class="space-y-6 relative z-10">
+      <div>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-primary/20 font-bold text-sm mb-4" style="color: hsl(220, 20%, 15%);">
+          {{ section.settings.badge | default: "#1 Family Card Shop" }}
+        </span>
+        <h1 class="text-4xl md:text-6xl font-heading font-bold leading-[1.1] text-foreground">
+          {{ section.settings.heading | default: 'Catch the Joy of <span style="color: hsl(350, 85%, 60%);">Collecting</span> Together' }}
+        </h1>
+        <p class="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mt-4">
+          {{ section.settings.subheading | default: "Curated Pokemon card bundles designed for kids and families. 100% Authentic, safe, and ready for game night." }}
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="inline-flex items-center justify-center rounded-full text-base px-8 h-12 shadow-lg font-bold hover:scale-105 transition-transform" style="background: hsl(45, 95%, 55%); color: hsl(220, 20%, 15%);">
+          {{ section.settings.cta_text | default: "Shop Bundles" }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        {% if section.settings.secondary_cta_text != blank %}
+          <a href="{{ section.settings.secondary_cta_link | default: '/pages/guide' }}" class="inline-flex items-center justify-center rounded-full text-base px-8 h-12 bg-white/50 backdrop-blur-sm border-2 border-border hover:bg-white font-bold transition-colors">
+            {{ section.settings.secondary_cta_text }}
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="flex items-center gap-4 pt-4 text-sm text-muted-foreground">
+        <div class="flex -space-x-3">
+          <img src="{{ 'avatar-1.png' | asset_url }}" alt="User" class="w-10 h-10 rounded-full border-2 border-white ring-1 ring-black/5 object-cover">
+          <img src="{{ 'avatar-2.png' | asset_url }}" alt="User" class="w-10 h-10 rounded-full border-2 border-white ring-1 ring-black/5 object-cover">
+          <img src="{{ 'avatar-3.png' | asset_url }}" alt="User" class="w-10 h-10 rounded-full border-2 border-white ring-1 ring-black/5 object-cover">
+        </div>
+        <div class="flex flex-col">
+          <div class="flex text-yellow-400">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <span class="font-medium text-foreground">{{ section.settings.social_proof | default: "Trusted by 10,000+ Families" }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative">
+      <div class="absolute inset-0 bg-primary/20 blur-3xl rounded-full transform rotate-12 scale-90"></div>
+      {% if section.settings.hero_image != blank %}
+        <img
+          src="{{ section.settings.hero_image | image_url: width: 800 }}"
+          alt="{{ section.settings.hero_image.alt | default: 'Happy family playing cards' }}"
+          class="relative z-10 rounded-3xl shadow-2xl transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500 w-full"
+        >
+      {% else %}
+        <img
+          src="{{ 'hero-family.png' | asset_url }}"
+          alt="Happy family playing cards"
+          class="relative z-10 rounded-3xl shadow-2xl transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500 w-full"
+        >
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- Decorative background -->
+  <div class="absolute top-20 right-0 w-64 h-64 rounded-full blur-3xl -z-0" style="background: hsla(350, 85%, 60%, 0.05);"></div>
+  <div class="absolute bottom-0 left-20 w-72 h-72 rounded-full blur-3xl -z-0" style="background: hsla(45, 95%, 55%, 0.1);"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge text",
+      "default": "#1 Family Card Shop"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading (HTML allowed)",
+      "default": "Catch the Joy of <span style=\"color: hsl(350, 85%, 60%);\">Collecting</span> Together"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Curated Pokemon card bundles designed for kids and families. 100% Authentic, safe, and ready for game night."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop Bundles"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_text",
+      "label": "Secondary button text",
+      "default": "How it Works"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "text",
+      "id": "social_proof",
+      "label": "Social proof text",
+      "default": "Trusted by 10,000+ Families"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

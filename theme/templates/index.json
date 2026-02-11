@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "trust": {
+      "type": "trust-section",
+      "blocks": {
+        "feature_1": { "type": "feature", "settings": { "icon": "shield", "title": "100% Authentic", "description": "Every card is verified real. No fakes, ever." } },
+        "feature_2": { "type": "feature", "settings": { "icon": "heart", "title": "Family Friendly", "description": "Curated content safe for kids of all ages." } },
+        "feature_3": { "type": "feature", "settings": { "icon": "zap", "title": "Perfect Condition", "description": "Cards are mint or near-mint quality." } },
+        "feature_4": { "type": "feature", "settings": { "icon": "truck", "title": "Fast Shipping", "description": "Orders ship within 24 hours from USA." } }
+      },
+      "block_order": ["feature_1", "feature_2", "feature_3", "feature_4"]
+    },
+    "parent_guide": {
+      "type": "parent-guide-preview",
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {}
+    },
+    "cta": {
+      "type": "cta-section",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "trust", "parent_guide", "featured_products", "cta"]
+}
