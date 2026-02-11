@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Star, ShoppingBag } from "lucide-react";
+import { Star, ShoppingBag, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
 interface ProductProps {
   id: string;
@@ -10,11 +11,24 @@ interface ProductProps {
   image: string;
   rating: number;
   isNew?: boolean;
+  onAddToCart?: () => Promise<void>;
 }
 
-export function ProductCard({ title, price, image, rating, isNew }: ProductProps) {
+export function ProductCard({ title, price, image, rating, isNew, onAddToCart }: ProductProps) {
+  const [adding, setAdding] = useState(false);
+
+  const handleAdd = async () => {
+    if (!onAddToCart) return;
+    setAdding(true);
+    try {
+      await onAddToCart();
+    } finally {
+      setAdding(false);
+    }
+  };
+
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -8 }}
       className="group relative bg-card rounded-2xl border border-border shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
@@ -23,11 +37,11 @@ export function ProductCard({ title, price, image, rating, isNew }: ProductProps
           New Arrival
         </Badge>
       )}
-      
+
       <div className="aspect-square overflow-hidden bg-secondary/30 p-8 flex items-center justify-center">
-        <img 
-          src={image} 
-          alt={title} 
+        <img
+          src={image}
+          alt={title}
           className="w-full h-full object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-500"
         />
       </div>
@@ -49,8 +63,17 @@ export function ProductCard({ title, price, image, rating, isNew }: ProductProps
           <span className="text-xl font-bold font-heading text-foreground">
             ${price.toFixed(2)}
           </span>
-          <Button size="sm" className="rounded-full px-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-            Add <ShoppingBag className="w-4 h-4 ml-1.5" />
+          <Button
+            size="sm"
+            className="rounded-full px-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+            onClick={handleAdd}
+            disabled={adding}
+          >
+            {adding ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>Add <ShoppingBag className="w-4 h-4 ml-1.5" /></>
+            )}
           </Button>
         </div>
       </div>

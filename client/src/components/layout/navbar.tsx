@@ -3,9 +3,11 @@ import { ShoppingCart, Search, Menu, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
+import { useShopify } from "@/hooks/use-shopify";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { cartItemCount } = useShopify();
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-border/50">
@@ -37,7 +39,11 @@ export function Navbar() {
           <Link href="/cart">
             <Button variant="ghost" size="icon" className="rounded-full hover:bg-secondary/50 relative">
               <ShoppingCart className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-accent rounded-full border-2 border-white"></span>
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
+                  {cartItemCount > 99 ? "99+" : cartItemCount}
+                </span>
+              )}
             </Button>
           </Link>
 
