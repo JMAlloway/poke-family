@@ -2,3 +2,17 @@ node_modules/
 dist/
 .env
 .env.local
+client/
+server/
+script/
+package.json
+package-lock.json
+tsconfig.json
+vite.config.ts
+postcss.config.js
+components.json
+drizzle.config.ts
+vite-plugin-meta-images.ts
+.env.example
+pokebundles-theme.zip
+generated-icon.png
