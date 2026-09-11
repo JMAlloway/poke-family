@@ -60,7 +60,7 @@
       <form action="/cart/add" method="post" class="space-y-4">
         {% if product.variants.size > 1 %}
           <div>
-            <label class="block text-sm font-bold mb-2">{{ product.variants.first.option1 ? 'Option' : 'Variant' }}</label>
+            <label class="block text-sm font-bold mb-2">{{ product.variants.first.option1 }}</label>
             <select name="id" class="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary focus:outline-none">
               {% for variant in product.variants %}
                 <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
@@ -118,3 +118,13 @@
     input.value = val;
   }
 </script>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{{ product.variants.first.option1 ? 'Option' : 'Variant' }}"
+  to: "{{ product.variants.first.option1 }}"
+  position: 2847..2883
+{% endcomment %}
